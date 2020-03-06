@@ -1,5 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
@@ -8,7 +14,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-
+import ElectedList from './ElectedList/Views/ElectedList';
 
 function App() {
   return (
@@ -34,6 +40,7 @@ function App() {
           </Form>
         </Navbar.Collapse>
       </Navbar>
+    <ElectedList time="test"/>
     </div>
   );
 }
