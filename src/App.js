@@ -14,7 +14,7 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import ElectedList from './ElectedList/Views/ElectedList';
-import PromessList from './PromessList/Views/PromessList';
+import PromessTabs from './PromessTabs/PromessTabs';
 
 function About() {
   return <h2>A propos</h2>;
@@ -40,7 +40,7 @@ function App() {
         </Navbar>
         <Switch>
           <Route exact path={"/"} component={ElectedList}></Route>
-          <Route exact path={"/elected/:id"} component={PromessList}></Route>
+          <Route exact path={"/elected/:id"} component={PromessTabs}></Route>
           <Route path={"/about"} component={About}></Route>
         </Switch>
       </div>

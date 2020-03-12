@@ -21,7 +21,6 @@ export default class ElectedList extends React.Component {
 	}
 
 	NumberList(elected) {
-
 		const listItems = elected.map((item) =>
 			<Link to={`elected/${item.id}`}>
 				<FaceIcon
