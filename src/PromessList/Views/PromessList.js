@@ -19,7 +19,7 @@ export default class PromessList extends React.Component {
 
   getAllPromess() {
     var categories = [
-      { name: "promess1", progress: "10" },
+      { name: "lonnnnnnnnnnnnnnnnnnnnnnnnng", progress: "10" },
       { name: "promess2", progress: "20" },
       { name: "promess3", progress: "50" },
       { name: "promess5", progress: "70" }
@@ -29,7 +29,7 @@ export default class PromessList extends React.Component {
 
   render() {
     return (
-      <div class="promess-list">
+      <div className="promess-list">
         <h1>Promess list {this.props.categorie}</h1>
         <Accordion>
           {this.state.categories &&
