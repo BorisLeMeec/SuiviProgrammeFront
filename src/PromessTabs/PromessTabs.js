@@ -1,6 +1,7 @@
 import React from "react";
 import PromessList from "../PromessList/Views/PromessList";
 import { Tabs, Tab, Spinner } from "react-bootstrap";
+import './PromessTabs.scss';
 
 export default class PromessTabs extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export default class PromessTabs extends React.Component {
 
   render() {
     return (
-      <div>
+      <div class="promess-tabs">
         <h1>pressentation elu {this.state.id}</h1>
         {this.categoriesTabs(this.state.categories)}
       </div>

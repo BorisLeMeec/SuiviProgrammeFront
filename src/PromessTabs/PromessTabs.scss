@@ -1,0 +1,14 @@
+.promess-tabs {
+  .nav-tabs {
+    border-bottom: unset;
+    background-color: #FCFCFC;
+    .nav-link {
+      font-size: x-large;
+      border: unset;
+      &.active {
+          background-color: unset;
+          border-bottom: solid #3f3d56;
+      }
+    }
+  }
+}
