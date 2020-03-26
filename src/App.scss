@@ -1,8 +1,18 @@
 .App {
   text-align: center;
+  .bg-dark {
+    // background-image:linear-gradient(to left, #202040, #011A24);
+    background-color: #202040 !important;
+  }
+  .nav-item {
+    a {
+      text-decoration: none;
+    color: #ecf0f1;
+    }
+  }
   .Logo {
     color: #ecf0f1 !important; 
-    background-color: #0836C1;
+    background-color: #3742fa;
     padding: 5px 15px;
     border-radius: 4px;
     font-family: "Helvetica";
@@ -13,9 +23,7 @@
   }
 }
 
-a {
-  text-decoration: none;
-}
+
 
 
 .App-logo {

@@ -11,6 +11,9 @@
                 }
                 .progress {
                     width: 50%;
+                    .progress-bar {
+                        background-image: linear-gradient(to right, #3742fa, #9c5eff);
+                    }
                 }
             }
         }

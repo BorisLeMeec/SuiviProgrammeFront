@@ -19,15 +19,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand as={Link} to="/" className="Logo">
+        <Navbar bg="dark" expand="lg">
+          <Navbar.Brand as={Link} to="/" className="Logo justify-content-center">
             Ça en est où ?
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+            <Nav >
               <Nav.Item>
-                <Link to="/about">A propos</Link>
+                <Link className="navItem" to="/about">A propos</Link>
               </Nav.Item>
             </Nav>
             {/* <Form>
