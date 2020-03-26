@@ -43,9 +43,9 @@ export default class ElectedList extends React.Component {
 
   NumberList(elected) {
     const listItems = elected.map(item => (
-      <div>
+      <div key={item.id}>
         <Link to={`elected/${item.id}`}>
-          <FaceIcon key={item.id} name={item.name} photoUrl={item.photoUrl} />
+          <FaceIcon name={item.name} photoUrl={item.photoUrl} />
         </Link>
       </div>
     ));

@@ -12,7 +12,7 @@ export default class faceIcon extends React.Component {
         className="faceIcon"
         style={{ backgroundImage: `url(${this.props.photoUrl})` }}
       >
-        <div>
+        <div className="name">
           <span>{this.props.name}</span>
         </div>
       </div>

@@ -1,6 +1,22 @@
 .App {
   text-align: center;
+  .Logo {
+    color: #ecf0f1 !important; 
+    background-color: #0836C1;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-family: "Helvetica";
+    font-weight: 600;
+  }
+  .body {
+    padding: 0px 15px;
+  }
 }
+
+a {
+  text-decoration: none;
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -36,3 +52,5 @@
     transform: rotate(360deg);
   }
 }
+
+
