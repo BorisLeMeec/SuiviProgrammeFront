@@ -11,6 +11,8 @@ import Button from "react-bootstrap/Button";
 import ElectedList from "./ElectedList/Views/ElectedList";
 import PromessTabs from "./PromessTabs/PromessTabs";
 
+import candidate from "./Assets/Illustrations/candidate.svg"
+
 function About() {
   return <h2>A propos</h2>;
 }
@@ -18,7 +20,7 @@ function About() {
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App" style={{ backgroundImage: `url(${candidate}` }}>
         <Navbar bg="dark" expand="lg">
           <Navbar.Brand as={Link} to="/" className="Logo justify-content-center">
             Ça en est où ?
@@ -36,7 +38,7 @@ function App() {
             </Form> */}
           </Navbar.Collapse>
         </Navbar>
-        <div className="body">
+        <div className="body" >
           <Switch>
             <Route exact path={"/"} component={ElectedList}></Route>
             <Route exact path={"/elected/:id"} component={PromessTabs}></Route>

@@ -1,18 +1,22 @@
 .App {
+  background-repeat: no-repeat;
+  background-position: center center;
   text-align: center;
+  min-height: 100vh;
+  overflow: auto;
   .bg-dark {
     // background-image:linear-gradient(to left, #202040, #011A24);
-    background-color: #202040 !important;
+    background-color: #2f3542 !important;
   }
   .nav-item {
     a {
       text-decoration: none;
-    color: #ecf0f1;
+      color: #ecf0f1;
     }
   }
   .Logo {
-    color: #ecf0f1 !important; 
-    background-color: #3742fa;
+    color: #ecf0f1 !important;
+    background-color: #575a89;
     padding: 5px 15px;
     border-radius: 4px;
     font-family: "Helvetica";
@@ -20,11 +24,10 @@
   }
   .body {
     padding: 0px 15px;
+    height: 100%;
+    width: 100%;
   }
 }
-
-
-
 
 .App-logo {
   height: 40vmin;
@@ -60,5 +63,3 @@
     transform: rotate(360deg);
   }
 }
-
-
