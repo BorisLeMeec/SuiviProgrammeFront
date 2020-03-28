@@ -21,7 +21,7 @@ function App() {
   return (
     <Router>
       <div className="App" style={{ backgroundImage: `url(${candidate}` }}>
-        <Navbar bg="dark" expand="lg">
+        <Navbar fixed="top" bg="dark" expand="lg">
           <Navbar.Brand as={Link} to="/" className="Logo justify-content-center">
             Ça en est où ?
           </Navbar.Brand>

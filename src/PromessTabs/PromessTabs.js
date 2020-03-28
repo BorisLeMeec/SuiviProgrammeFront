@@ -46,7 +46,7 @@ export default class PromessTabs extends React.Component {
 
   render() {
     return (
-      <div class="promess-tabs">
+      <div className="promess-tabs">
         <h1>pressentation elu {this.state.id}</h1>
         {this.categoriesTabs(this.state.categories)}
       </div>

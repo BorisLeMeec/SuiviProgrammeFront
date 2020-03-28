@@ -1,4 +1,6 @@
 import React from "react";
+import axios from 'axios';
+
 import FaceIcon from "../Components/faceIcon";
 import { Link } from "react-router-dom";
 import "./ElectedList.scss";
@@ -8,44 +10,24 @@ export default class ElectedList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      elected: [
-        {
-          name: "Nathalie Appéré",
-          id: 1,
-          promessNbr: "5",
-          photoUrl:
-            "https://www.rennes-infos-autrement.fr/wp-content/uploads/Nathalie_App%C3%A9r%C3%A9_-_F%C3%A9vrier_2013_-_01-810x1215.jpg"
-        },
-        {
-          name: "Carole Gandon",
-          id: 2,
-          promessNbr: "4",
-          photoUrl:
-            "https://www.rennes-infos-autrement.fr/wp-content/uploads/th-1.jpeg"
-        },
-        {
-          name: "Matthieu Theurier",
-          id: 3,
-          promessNbr: "3",
-          photoUrl:
-            "https://pbs.twimg.com/profile_images/1200133121640976384/rCUvHm8__400x400.jpg"
-        },
-        {
-          name: "Enora Le Pape",
-          id: 4,
-          promessNbr: "7",
-          photoUrl:
-            "https://img.20mn.fr/TEDIw1xITKmMpnkYDWC6Fg/640x410_enora-le-pape-tete-de-liste-rennes-en-commun-la-france-insoumise-aux-elections-municipales-2020-a.jpg"
-        }
-      ]
+      elected: []
     };
+  }
+
+  componentDidMount() {
+    axios.get(`https://caenestou.osc-fr1.scalingo.io/api/people`)
+      .then(res => {
+        console.log(res.data['hydra:member']);
+        const elected = res.data['hydra:member'];
+        this.setState({ elected });
+      })
   }
 
   NumberList(elected) {
     const listItems = elected.map(item => (
       <div key={item.id}>
         <Link to={`elected/${item.id}`}>
-          <FaceIcon name={item.name} photoUrl={item.photoUrl} />
+          <FaceIcon name={item.name} photoUrl={'https://via.placeholder.com/500'} />
         </Link>
       </div>
     ));
