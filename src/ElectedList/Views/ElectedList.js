@@ -17,7 +17,6 @@ export default class ElectedList extends React.Component {
   componentDidMount() {
     axios.get(`https://caenestou.osc-fr1.scalingo.io/api/people`)
       .then(res => {
-        console.log(res.data['hydra:member']);
         const elected = res.data['hydra:member'];
         this.setState({ elected });
       })

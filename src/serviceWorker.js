@@ -9,6 +9,7 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
+import * as urlB64ToUint8Array from 'urlb64touint8array';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -19,9 +20,13 @@ const isLocalhost = Boolean(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
+let isSubscribed = false;
+let swRegistration = null;
+
+let applicationServerPublicKey = 'BPkrKBnmja0GlUEiDqjcIpAi54OyQfOn9VcNKrnYlp_PfvtQV4c77rVpOKOepaCUYnXWlDXn_9ImHhLS8Cde8vM';
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -58,6 +63,9 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      swRegistration = registration;
+      initializeUI();
+      subscribeUser(); // TODO a change vers quand on like
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -110,6 +118,8 @@ function checkValidServiceWorker(swUrl, config) {
         response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
+        console.log('not found');
+        console.log(swUrl);
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
@@ -139,3 +149,50 @@ export function unregister() {
       });
   }
 }
+
+function initializeUI() {
+  // Set the initial subscription value
+  swRegistration.pushManager.getSubscription()
+      .then(function(subscription) {
+        isSubscribed = !(subscription === null);
+
+        //TODO prevenir le backend
+
+        if (isSubscribed) {
+          console.log('User IS subscribed.');
+        } else {
+          console.log('User is NOT subscribed.');
+        }
+      });
+}
+
+function subscribeUser() {
+  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+  swRegistration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: applicationServerKey
+  })
+      .then(function(subscription) {
+        console.log('User is subscribed.');
+
+        //TODO prevenir le backend
+
+        isSubscribed = true;
+
+      })
+      .catch(function(error) {
+        console.error('Failed to subscribe the user: ', error);
+      });
+}
+/* eslint-disable no-restricted-globals */
+self.addEventListener('push', function(event) {
+    console.log('[Service Worker] Push Received.');
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+
+    const title = 'Push Codelab';
+    const options = {
+        body: 'Yay it works.'
+    };
+    console.log('test notif');
+    event.waitUntil(self.registration.showNotification(title, options));
+});
