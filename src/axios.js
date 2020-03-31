@@ -1,5 +1,5 @@
 import axios from 'axios';
-const instance = axios.create({
-    baseURL: '' // TODO mettre la bonne URL
+
+export default axios.create({
+    baseURL: 'https://caenestou.osc-fr1.scalingo.io'
 });
-export default instance;

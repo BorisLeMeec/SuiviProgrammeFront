@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios';
+import axios from "../../axios.js";
 
 import FaceIcon from "../Components/faceIcon";
 import { Link } from "react-router-dom";
@@ -15,11 +15,11 @@ export default class ElectedList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`https://caenestou.osc-fr1.scalingo.io/api/people`)
+    axios.get(`/api/people`)
       .then(res => {
         const elected = res.data['hydra:member'];
         this.setState({ elected });
-      })
+      });
   }
 
   NumberList(elected) {

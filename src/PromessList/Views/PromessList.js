@@ -7,39 +7,40 @@ export default class PromessList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: null
+      promess: null
     };
 
     this.getAllPromess = this.getAllPromess.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.props.promess)
     this.getAllPromess();
   }
 
   getAllPromess() {
-    var categories = [
+    var promess = [
       { name: "lonnnnnnnnnnnnnnnnnnnnnnnnng", progress: "10" },
       { name: "promess2", progress: "20" },
       { name: "promess3", progress: "50" },
       { name: "promess5", progress: "70" }
     ];
-    this.setState({ ...this.state, categories });
+    this.setState({ ...this.state, promess });
   }
 
   render() {
     return (
       <div className="promess-list">
-        <h1>Promess list {this.props.categorie}</h1>
+        <h1>{this.props.categorie}</h1>
         <Accordion>
-          {this.state.categories &&
-            this.state.categories.map((categorie) => (
-              <Card key={categorie.name}>
-                <Accordion.Toggle as={Card.Header} eventKey={categorie.name}>
-                  <span>{categorie.name}</span>
-                  <ProgressBar now={categorie.progress} />
+          {this.props.promess &&
+            this.props.promess.map((categorie) => (
+              <Card key={categorie.id}>
+                <Accordion.Toggle as={Card.Header} eventKey={categorie.id}>
+                  <span>{categorie.description}</span>
+                  <ProgressBar now={categorie.progression} />
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={categorie.name}>
+                <Accordion.Collapse eventKey={categorie.id}>
                   <Card.Body>Hello! I'm the body</Card.Body>
                 </Accordion.Collapse>
               </Card>
