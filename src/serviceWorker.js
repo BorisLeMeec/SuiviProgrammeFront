@@ -156,14 +156,18 @@ function initializeUI() {
       .then(function(subscription) {
         isSubscribed = !(subscription === null);
 
-        //TODO prevenir le backend
+          updateSubscriptionOnServer(subscription);
 
-        if (isSubscribed) {
+          if (isSubscribed) {
           console.log('User IS subscribed.');
         } else {
           console.log('User is NOT subscribed.');
         }
       });
+}
+
+function updateSubscriptionOnServer(subscription) {
+    // TODO: Send subscription to application server
 }
 
 function subscribeUser() {
@@ -173,9 +177,8 @@ function subscribeUser() {
     applicationServerKey: applicationServerKey
   })
       .then(function(subscription) {
-        console.log('User is subscribed.');
-
-        //TODO prevenir le backend
+          updateSubscriptionOnServer(subscription);
+          console.log(JSON.stringify(subscription));
 
         isSubscribed = true;
 
@@ -187,12 +190,10 @@ function subscribeUser() {
 /* eslint-disable no-restricted-globals */
 self.addEventListener('push', function(event) {
     console.log('[Service Worker] Push Received.');
-    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
     const title = 'Push Codelab';
     const options = {
         body: 'Yay it works.'
     };
-    console.log('test notif');
     event.waitUntil(self.registration.showNotification(title, options));
 });
