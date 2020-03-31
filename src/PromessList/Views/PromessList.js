@@ -6,26 +6,6 @@ import './PromessList.scss'
 export default class PromessList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      promess: null
-    };
-
-    this.getAllPromess = this.getAllPromess.bind(this);
-  }
-
-  componentDidMount() {
-    console.log(this.props.promess)
-    this.getAllPromess();
-  }
-
-  getAllPromess() {
-    var promess = [
-      { name: "lonnnnnnnnnnnnnnnnnnnnnnnnng", progress: "10" },
-      { name: "promess2", progress: "20" },
-      { name: "promess3", progress: "50" },
-      { name: "promess5", progress: "70" }
-    ];
-    this.setState({ ...this.state, promess });
   }
 
   render() {
