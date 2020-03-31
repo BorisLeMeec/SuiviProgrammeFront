@@ -17,30 +17,13 @@ export default class PromessTabs extends React.Component {
     this.fetchPromess = this.fetchPromess.bind(this);
     this.fetchPeopleInfos = this.fetchPeopleInfos.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
-    this.organizeData = this.organizeData.bind(this);
+    this.fetchCategories = this.fetchCategories.bind(this);
+    this.fetchSubCategories = this.fetchSubCategories.bind(this);
   }
 
   async componentDidMount() {
     await this.fetchPeopleInfos();
-    await this.fetchPromess();
-    await this.organizeData();
-  }
-
- async organizeData() {
-    const data = {};
-
-    for (const item of this.state.promess ) {
-      for (const category of item.category) {
-        if (!data[category]) {
-          const res = await axios.get(`${category}`)
-          data[category] = res.data;
-          data[category].proposals = [];
-        }
-        data[category].proposals.push(item);
-      }
-    }
-    
-    this.setState({ categories: Object.values(data) })
+    await this.fetchCategories();
   }
 
   async fetchPeopleInfos() {
@@ -51,6 +34,21 @@ export default class PromessTabs extends React.Component {
     this.setState({ peopleInfos });
   }
 
+    async fetchCategories() {
+        const res = await axios.get(
+            `/api/categories`
+        );
+        const categories = res.data["hydra:member"];
+        this.setState({ categories });
+    }
+
+    async fetchSubCategories(cat) {
+        const res = await axios.get(
+            `/api/categories/` + cat + '/childs'
+        );
+        return res.data["hydra:member"];
+    }
+
   async fetchPromess() {
     const res = await axios.get(
       `/api/people/${this.state.id}/proposals`
@@ -60,28 +58,45 @@ export default class PromessTabs extends React.Component {
   }
 
   handleTabClick(event) {
-    console.log(event);
+      this.fetchSubCategories(event);
   }
 
-  categoriesTabs(categoriesList) {
-    if (!categoriesList) {
-      return <Spinner animation="border" />;
+    categoriesTabs(categoriesList) {
+        if (!categoriesList) {
+            return <Spinner animation="border" />;
+        }
+        return (
+            <Tabs
+                defaultActiveKey={categoriesList[0].name}
+                id="uncontrolled-tab-example">
+                {categoriesList.map(item => (
+                    <Tab eventKey={item.id} title={item.name} key={item.id}>
+                        {this.subCategoriesTabs(await this.fetchSubCategories(item.id))}
+                    </Tab>
+                ))}
+            </Tabs>
+        );
     }
-    const tabs = categoriesList.map(item => (
-      <Tab eventKey={item.name} title={item.name} key={item.id}>
-        <PromessList promess={item.proposals} categorie={item.name}></PromessList>
-      </Tab>
-    ));
-    return (
-      <Tabs
-        onSelect={this.handleTabClick}
-        defaultActiveKey={categoriesList[0].name}
-        id="uncontrolled-tab-example"
-      >
-        {tabs}
-      </Tabs>
-    );
-  }
+    subCategoriesTabs(subCategories) {
+        if (!subCategories) {
+            return <Spinner animation="border" />;
+        }
+        console.log(subCategories);return;
+        const tabs = subCategories.map(item => (
+            <Tab eventKey={item.id} title={item.name} key={item.id}>
+                <PromessList promess={item.proposals} categorie={item.name}/>
+            </Tab>
+        ));
+        return (
+            <Tabs
+                onSelect={this.handleTabClick}
+                defaultActiveKey={subCategories[0].name}
+                id="uncontrolled-tab-example"
+            >
+                {tabs}
+            </Tabs>
+        );
+    }
 
   render() {
     return (
