@@ -4,9 +4,6 @@ import './PromessList.scss'
 
 // First we create our class
 export default class PromessList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

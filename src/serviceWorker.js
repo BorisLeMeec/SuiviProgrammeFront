@@ -63,9 +63,9 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
-      swRegistration = registration;
-      initializeUI();
-      subscribeUser(); // TODO a change vers quand on like
+      // swRegistration = registration;
+      // initializeUI();
+      // subscribeUser(); // TODO a change vers quand on like
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -150,50 +150,52 @@ export function unregister() {
   }
 }
 
-function initializeUI() {
-  // Set the initial subscription value
-  swRegistration.pushManager.getSubscription()
-      .then(function(subscription) {
-        isSubscribed = !(subscription === null);
+// function initializeUI() {
+//   // Set the initial subscription value
+//   swRegistration.pushManager.getSubscription()
+//       .then(function(subscription) {
+//         isSubscribed = !(subscription === null);
 
-          updateSubscriptionOnServer(subscription);
+//           updateSubscriptionOnServer(subscription);
 
-          if (isSubscribed) {
-          console.log('User IS subscribed.');
-        } else {
-          console.log('User is NOT subscribed.');
-        }
-      });
-}
+//           if (isSubscribed) {
+//           console.log('User IS subscribed.');
+//         } else {
+//           console.log('User is NOT subscribed.');
+//         }
+//       });
+// }
 
-function updateSubscriptionOnServer(subscription) {
-    // TODO: Send subscription to application server
-}
+// function updateSubscriptionOnServer(subscription) {
+//     // TODO: Send subscription to application server
+// }
 
-function subscribeUser() {
-  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-  swRegistration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: applicationServerKey
-  })
-      .then(function(subscription) {
-          updateSubscriptionOnServer(subscription);
-          console.log(JSON.stringify(subscription));
+// function subscribeUser() {
+//   const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+//   swRegistration.pushManager.subscribe({
+//     userVisibleOnly: true,
+//     applicationServerKey: applicationServerKey
+//   })
+//       .then(function(subscription) {
+//           updateSubscriptionOnServer(subscription);
+//           console.log(JSON.stringify(subscription));
 
-        isSubscribed = true;
+//         isSubscribed = true;
 
-      })
-      .catch(function(error) {
-        console.error('Failed to subscribe the user: ', error);
-      });
-}
-/* eslint-disable no-restricted-globals */
-self.addEventListener('push', function(event) {
-    console.log('[Service Worker] Push Received.');
+//       })
+//       .catch(function(error) {
+//         console.error('Failed to subscribe the user: ', error);
+//       });
+// }
+// /* eslint-disable no-restricted-globals */
+// self.addEventListener('push', function(event) {
+//     console.log('[Service Worker] Push Received.');
 
-    const title = 'Push Codelab';
-    const options = {
-        body: 'Yay it works.'
-    };
-    event.waitUntil(self.registration.showNotification(title, options));
-});
+//     const title = 'Push Codelab';
+//     const options = {
+//         body: 'Yay it works.'
+//     };
+//     event.waitUntil(self.registration.showNotification(title, options));
+// });
+
+
