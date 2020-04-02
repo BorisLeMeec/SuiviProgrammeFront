@@ -7,7 +7,6 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import ElectedList from "./ElectedList/Views/ElectedList";
 import PromessTabs from "./PromessTabs/PromessTabs";
-import * as serviceWorker from "./service-worker.js";
 import candidate from "./Assets/Illustrations/candidate.svg";
 
 function About() {
@@ -15,11 +14,7 @@ function About() {
 }
 
 class App extends React.Component {
-  async componentDidMount() {
-    serviceWorker.requestNotificationPermission().then(() => {
-      serviceWorker.showNotification();
-    });
-  }
+  async componentDidMount() {}
 
   render() {
     return (
