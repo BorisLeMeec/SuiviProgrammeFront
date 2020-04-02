@@ -9,21 +9,26 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
+import * as urlB64ToUint8Array from 'urlb64touint8array';
 
 const isLocalhost = Boolean(
-  window.location.hostname === "localhost" ||
+  window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
-    window.location.hostname === "[::1]" ||
+    window.location.hostname === '[::1]' ||
     // 127.0.0.0/8 are considered localhost for IPv4.
     window.location.hostname.match(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
+// let isSubscribed = false;
+// let swRegistration = null;
 
-let notifPermission = "default";
+
+let notifPermission = 'default';
+let applicationServerPublicKey = 'BPkrKBnmja0GlUEiDqjcIpAi54OyQfOn9VcNKrnYlp_PfvtQV4c77rVpOKOepaCUYnXWlDXn_9ImHhLS8Cde8vM';
 
 export function register(config) {
-  if ("serviceWorker" in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -33,20 +38,19 @@ export function register(config) {
       return;
     }
 
-    window.addEventListener("load", () => {
-      const swUrl = `/service-worker.js`;
+    window.addEventListener('load', () => {
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
-        //checkValidServiceWorker(swUrl, config);
-        registerValidSW('', config);
+        checkValidServiceWorker(swUrl, config);
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
           console.log(
-            "This web app is being served cache-first by a service " +
-              "worker. To learn more, visit https://bit.ly/CRA-PWA"
+            'This web app is being served cache-first by a service ' +
+              'worker. To learn more, visit https://bit.ly/CRA-PWA'
           );
         });
       } else {
@@ -61,20 +65,23 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      // swRegistration = registration;
+      // initializeUI();
+      // subscribeUser(); // TODO a change vers quand on like
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
           return;
         }
         installingWorker.onstatechange = () => {
-          if (installingWorker.state === "installed") {
+          if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
               console.log(
-                "New content is available and will be used when all " +
-                  "tabs for this page are closed. See https://bit.ly/CRA-PWA."
+                'New content is available and will be used when all ' +
+                  'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
               );
 
               // Execute callback
@@ -85,7 +92,7 @@ function registerValidSW(swUrl, config) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              console.log("Content is cached for offline use.");
+              console.log('Content is cached for offline use.');
 
               // Execute callback
               if (config && config.onSuccess) {
@@ -97,22 +104,24 @@ function registerValidSW(swUrl, config) {
       };
     })
     .catch(error => {
-      console.error("Error during service worker registration:", error);
+      console.error('Error during service worker registration:', error);
     });
 }
 
 function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, {
-    headers: { "Service-Worker": "script" }
+    headers: { 'Service-Worker': 'script' }
   })
     .then(response => {
       // Ensure service worker exists, and that we really are getting a JS file.
-      const contentType = response.headers.get("content-type");
+      const contentType = response.headers.get('content-type');
       if (
         response.status === 404 ||
-        (contentType != null && contentType.indexOf("javascript") === -1)
+        (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
+        console.log('not found');
+        console.log(swUrl);
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
@@ -126,13 +135,13 @@ function checkValidServiceWorker(swUrl, config) {
     })
     .catch(() => {
       console.log(
-        "No internet connection found. App is running in offline mode."
+        'No internet connection found. App is running in offline mode.'
       );
     });
 }
 
 export function unregister() {
-  if ("serviceWorker" in navigator) {
+  if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready
       .then(registration => {
         registration.unregister();
@@ -143,6 +152,54 @@ export function unregister() {
   }
 }
 
+// function initializeUI() {
+//   // Set the initial subscription value
+//   swRegistration.pushManager.getSubscription()
+//       .then(function(subscription) {
+//         isSubscribed = !(subscription === null);
+
+//         //TODO prevenir le backend
+
+//         if (isSubscribed) {
+//           console.log('User IS subscribed.');
+//         } else {
+//           console.log('User is NOT subscribed.');
+//         }
+//       });
+// }
+
+// function subscribeUser() {
+//   const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+//   swRegistration.pushManager.subscribe({
+//     userVisibleOnly: true,
+//     applicationServerKey: applicationServerKey
+//   })
+//       .then(function(subscription) {
+//         console.log('User is subscribed.');
+
+//         //TODO prevenir le backend
+
+//         isSubscribed = true;
+
+//       })
+//       .catch(function(error) {
+//         console.error('Failed to subscribe the user: ', error);
+//       });
+// }
+// /* eslint-disable no-restricted-globals */
+// self.addEventListener('push', function(event) {
+//     console.log('[Service Worker] Push Received.');
+//     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+
+//     const title = 'Push Codelab';
+//     const options = {
+//         body: 'Yay it works.'
+//     };
+//     console.log('test notif');
+//     event.waitUntil(self.registration.showNotification(title, options));
+// });
+
+
 export async function requestNotificationPermission() {
   notifPermission = await window.Notification.requestPermission();
   if (notifPermission !== "granted") {
@@ -151,9 +208,9 @@ export async function requestNotificationPermission() {
 }
 
 export function showNotification() {
+  console.log('show');
   if (notifPermission === "granted") {
     navigator.serviceWorker.ready.then(registration => {
-      console.log('test');
       registration.showNotification("Vibration Sample", {
         body: "Buzz! Buzz!",
         tag: "vibration-sample"
@@ -161,3 +218,9 @@ export function showNotification() {
     });
   }
 }
+
+/* eslint-disable-next-line no-restricted-globals */
+self.addEventListener("push", event => {
+  console.log('héoh');
+  showNotification();
+});
