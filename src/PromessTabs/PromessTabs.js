@@ -1,5 +1,5 @@
 import React from "react";
-import PromessList from "../PromessList/Views/PromessList";
+import SubCategoriesTabs from "./Components/subCategoriesTabs"
 import { Tabs, Tab, Spinner } from "react-bootstrap";
 import axios from "../axios.js";
 import "./PromessTabs.scss";
@@ -18,7 +18,6 @@ export default class PromessTabs extends React.Component {
     this.fetchPeopleInfos = this.fetchPeopleInfos.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
     this.fetchCategories = this.fetchCategories.bind(this);
-    this.fetchSubCategories = this.fetchSubCategories.bind(this);
   }
 
   async componentDidMount() {
@@ -40,13 +39,6 @@ export default class PromessTabs extends React.Component {
         );
         const categories = res.data["hydra:member"];
         this.setState({ categories });
-    }
-
-    async fetchSubCategories(cat) {
-        const res = await axios.get(
-            `/api/categories/` + cat + '/childs'
-        );
-        return res.data["hydra:member"];
     }
 
   async fetchPromess() {
@@ -71,29 +63,9 @@ export default class PromessTabs extends React.Component {
                 id="uncontrolled-tab-example">
                 {categoriesList.map(item => (
                     <Tab eventKey={item.id} title={item.name} key={item.id}>
-                        {this.subCategoriesTabs(await this.fetchSubCategories(item.id))}
+                        <SubCategoriesTabs catId={item.id} />
                     </Tab>
                 ))}
-            </Tabs>
-        );
-    }
-    subCategoriesTabs(subCategories) {
-        if (!subCategories) {
-            return <Spinner animation="border" />;
-        }
-        console.log(subCategories);return;
-        const tabs = subCategories.map(item => (
-            <Tab eventKey={item.id} title={item.name} key={item.id}>
-                <PromessList promess={item.proposals} categorie={item.name}/>
-            </Tab>
-        ));
-        return (
-            <Tabs
-                onSelect={this.handleTabClick}
-                defaultActiveKey={subCategories[0].name}
-                id="uncontrolled-tab-example"
-            >
-                {tabs}
             </Tabs>
         );
     }

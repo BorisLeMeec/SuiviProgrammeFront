@@ -16,11 +16,6 @@ function About() {
 
 class App extends React.Component {
 
-  async componentDidMount() {
-    console.log('hello from app');
-    const permission = await window.Notification.requestPermission()
-  }
-
   render() {
     return (
       <Router>

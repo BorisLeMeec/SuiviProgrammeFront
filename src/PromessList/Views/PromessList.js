@@ -1,9 +1,16 @@
 import React from "react";
 import { Accordion, Card, ProgressBar } from "react-bootstrap";
-import './PromessList.scss'
+import "./PromessList.scss";
 
 // First we create our class
 export default class PromessList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  async componentDidMount() {
+    console.log(this.props.promess);
+  }
 
   render() {
     return (
@@ -11,7 +18,7 @@ export default class PromessList extends React.Component {
         <h1>{this.props.categorie}</h1>
         <Accordion>
           {this.props.promess &&
-            this.props.promess.map((categorie) => (
+            this.props.promess.map(categorie => (
               <Card key={categorie.id}>
                 <Accordion.Toggle as={Card.Header} eventKey={categorie.id}>
                   <span>{categorie.description}</span>
