@@ -1,5 +1,5 @@
 import React from "react";
-import { Accordion, Card, ProgressBar } from "react-bootstrap";
+import {Accordion, Alert, Card, ProgressBar} from "react-bootstrap";
 import "./PromessList.scss";
 import axios from "../../axios";
 
@@ -22,7 +22,6 @@ export default class PromessList extends React.Component {
             `/api/proposals?category=${this.props.categorie.id}&person=${this.props.person}`
         );
         this.setState({ promesses: res.data["hydra:member"] });
-        console.log(this.state.promesses);
     }
 
   render() {
@@ -31,14 +30,34 @@ export default class PromessList extends React.Component {
         <h1>{this.props.categorie.name}</h1>
         <Accordion>
           {this.state.promesses &&
-            this.state.promesses.map(categorie => (
-              <Card key={categorie.id}>
-                <Accordion.Toggle as={Card.Header} eventKey={categorie.id}>
-                  <span>{categorie.description}</span>
-                  <ProgressBar now={categorie.progression} />
+            this.state.promesses.map(promesse => (
+              <Card key={promesse.id}>
+                <Accordion.Toggle as={Card.Header} eventKey={promesse.id}>
+                  <span>{promesse.description}</span>
+                    <span>
+                        {promesse.status === 0 &&
+                        <Alert variant={'secondary'}>En attente</Alert>
+                        }
+                        {promesse.status === 1 &&
+                        <Alert variant={'primary'}>En cours</Alert>
+                        }
+                        {promesse.status === 2 &&
+                        <Alert variant={'danger'}>Annulé</Alert>
+                        }
+                        {promesse.status === 3 &&
+                        <Alert variant={'success'}>Fini</Alert>
+                        }
+                    </span>
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={categorie.id}>
-                  <Card.Body>Hello! I'm the body</Card.Body>
+                <Accordion.Collapse eventKey={promesse.id}>
+                  <Card.Body>
+                      {promesse.progressionType !== 2 &&
+                        <ProgressBar striped
+                                     now={promesse.progression}
+                                     max={promesse.progressionType === 0 ? 100 : promesse.progressionMax}
+                                     label={promesse.progressionType === 0 ? `${promesse.progression}%` : `${promesse.progression}/${promesse.progressionMax}`}/>
+                      }
+                  </Card.Body>
                 </Accordion.Collapse>
               </Card>
             ))}
