@@ -19,7 +19,7 @@ export default class PromessList extends React.Component {
 
     async fetchPromesses() {
         const res = await axios.get(
-            `/api/proposals/?category=${this.props.categorie.id}&person=${this.props.person}`
+            `/api/proposals?category=${this.props.categorie.id}&person=${this.props.person}`
         );
         this.setState({ promesses: res.data["hydra:member"] });
         console.log(this.state.promesses);
