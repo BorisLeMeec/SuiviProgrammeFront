@@ -16,7 +16,6 @@ if ("function" === typeof importScripts) {
     // manually overriding the skipWaiting();
     self.addEventListener("install", event => {
       self.skipWaiting();
-      window.location.reload();
     });
 
     self.addEventListener('push', (event) => {
