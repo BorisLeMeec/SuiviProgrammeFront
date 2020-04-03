@@ -63,7 +63,7 @@ export default class PromessTabs extends React.Component {
                 id="uncontrolled-tab-example">
                 {categoriesList.map(item => (
                     <Tab eventKey={item.id} title={item.name} key={item.id}>
-                        <SubCategoriesTabs catId={item.id} />
+                        <SubCategoriesTabs person={this.state.id} catId={item.id} />
                     </Tab>
                 ))}
             </Tabs>

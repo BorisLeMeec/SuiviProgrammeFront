@@ -7,7 +7,7 @@ export default class PromessTabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      subCategories: null,
+        subCategories: null
     };
     this.fetchSubCategories = this.fetchSubCategories.bind(this);
   }
@@ -20,12 +20,10 @@ async fetchSubCategories() {
     const res = await axios.get(
         `/api/categories/${this.props.catId}/childs`
     );
-    console.log(res.data["hydra:member"]);
-    this.setState({ subCategories: res.data["hydra:member"] }); 
+    this.setState({ subCategories: res.data["hydra:member"] });
 }
 
   handleTabClick(event) {
-      console.log(event);
   }
 
     subCategoriesTabs(subCategories) {
@@ -34,7 +32,7 @@ async fetchSubCategories() {
         }
         const tabs = subCategories.map(item => (
             <Tab eventKey={item.id} title={item.name} key={item.id}>
-                <PromessList promess={item.proposals} categorie={item.name}/>
+                <PromessList person={this.props.person} categorie={item}/>
             </Tab>
         ));
         return (
