@@ -26,7 +26,7 @@ export default class ElectedList extends React.Component {
     const listItems = elected.map(item => (
       <div key={item.id}>
         <Link to={`elected/${item.id}`}>
-          <FaceIcon name={item.name} photoUrl={'https://via.placeholder.com/500'} />
+          <FaceIcon name={item.name}/>
         </Link>
       </div>
     ));
@@ -36,11 +36,6 @@ export default class ElectedList extends React.Component {
   render() {
     return (
       <div>
-        <section className="ElectedList">
-          <p>
-            {this.state.greeting} {this.state.name}
-          </p>
-        </section>
         <div className="elected-grid">
           {this.NumberList(this.state.elected)}
         </div>
