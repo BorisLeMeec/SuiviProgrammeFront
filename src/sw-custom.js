@@ -3,9 +3,10 @@ if ("function" === typeof importScripts) {
     "https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js"
   );
 
-  // Global workbox
+
+
+    // Global workbox
   if (workbox) {
-    console.log("Workbox is loaded");
 
     // Disable logging
     workbox.setConfig({ debug: true });

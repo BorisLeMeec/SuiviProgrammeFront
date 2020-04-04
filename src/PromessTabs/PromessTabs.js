@@ -7,6 +7,10 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 
+const applicationServerPublicKey =
+    "BPkrKBnmja0GlUEiDqjcIpAi54OyQfOn9VcNKrnYlp_PfvtQV4c77rVpOKOepaCUYnXWlDXn_9ImHhLS8Cde8vM";
+
+
 export default class PromessTabs extends React.Component {
   constructor(props) {
     super(props);
@@ -15,13 +19,17 @@ export default class PromessTabs extends React.Component {
         categories: null,
         promess: null,
         peopleInfos: null,
-        selectedCategory: null
+        selectedCategory: null,
+        subscribed: false
     };
 
     this.fetchPromess = this.fetchPromess.bind(this);
     this.fetchPeopleInfos = this.fetchPeopleInfos.bind(this);
     this.fetchCategories = this.fetchCategories.bind(this);
     this.selectCategory = this.selectCategory.bind(this);
+    this.askNotificationRight = this.askNotificationRight.bind(this);
+    this.urlBase64ToUint8Array = this.urlBase64ToUint8Array.bind(this);
+    this.subscribe = this.subscribe.bind(this);
   }
 
   async componentDidMount() {
@@ -76,13 +84,59 @@ export default class PromessTabs extends React.Component {
         );
     }
 
-  render() {
+    async subscribe(subscription) {
+        await axios.post(
+            `/api/people/${this.state.id}/subscribe/`,
+            {
+                token: JSON.stringify(subscription)
+            }
+        );
+        const subscribed = true;
+        this.setState({ subscribed });
+    }
+
+    askNotificationRight() {
+        if (!("serviceWorker" in navigator)) {
+            return;
+        }
+
+        var top = this;
+        navigator.serviceWorker.ready
+            .then(function (registration) {
+                registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: top.urlBase64ToUint8Array(applicationServerPublicKey)
+                }).then(function () {
+                    registration.pushManager.getSubscription().then(function (subscription) {
+                        top.subscribe(subscription);
+                    });
+                });
+            })
+    }
+
+    urlBase64ToUint8Array(base64String) {
+        var padding = '='.repeat((4 - base64String.length % 4) % 4);
+        var base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        var rawData = window.atob(base64);
+        var outputArray = new Uint8Array(rawData.length);
+
+        for (var i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+
+    render() {
     return (
       <div className="promess-tabs">
         {this.state.peopleInfos &&
             <div>
                 <h1>{this.state.peopleInfos.name}</h1>
-                <Container><Row class={"justify-content-end"}><Col xs={{size:5, offset:7}}><a href='#'>S'abonner</a></Col></Row></Container>
+                <Container><Row className={"justify-content-end"}><Col xs={{size:5, offset:7}}><a href='#' onClick={this.askNotificationRight}>S'abonner</a></Col></Row></Container>
             </div>
         }
         {this.categoriesTabs(this.state.categories)}
