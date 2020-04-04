@@ -1,23 +1,27 @@
 import React from "react";
 import SubCategoriesTabs from "./Components/subCategoriesTabs"
-import { Tabs, Tab, Spinner } from "react-bootstrap";
+import {Tabs, Tab, Spinner, DropdownItem, Row, Col} from "react-bootstrap";
 import axios from "../axios.js";
 import "./PromessTabs.scss";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 export default class PromessTabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.match.params.id,
-      categories: null,
-      promess: null,
-      peopleInfos: null
+        id: props.match.params.id,
+        categories: null,
+        promess: null,
+        peopleInfos: null,
+        selectedCategory: null
     };
 
     this.fetchPromess = this.fetchPromess.bind(this);
     this.fetchPeopleInfos = this.fetchPeopleInfos.bind(this);
-    this.handleTabClick = this.handleTabClick.bind(this);
     this.fetchCategories = this.fetchCategories.bind(this);
+    this.selectCategory = this.selectCategory.bind(this);
   }
 
   async componentDidMount() {
@@ -49,8 +53,8 @@ export default class PromessTabs extends React.Component {
     this.setState({ promess });
   }
 
-  handleTabClick(event) {
-      this.fetchSubCategories(event);
+  selectCategory(event, object) {
+      this.setState({selectedCategory: event});
   }
 
     categoriesTabs(categoriesList) {
@@ -58,23 +62,32 @@ export default class PromessTabs extends React.Component {
             return <Spinner animation="border" />;
         }
         return (
-            <Tabs
-                defaultActiveKey={categoriesList[0].name}
-                id="uncontrolled-tab-example">
+            <DropdownButton
+                title="Categorie"
+                id="dropdown-menu-align-right"
+                onSelect={this.selectCategory}
+            >
                 {categoriesList.map(item => (
-                    <Tab eventKey={item.id} title={item.name} key={item.id}>
-                        <SubCategoriesTabs person={this.state.id} catId={item.id} />
-                    </Tab>
+                    <DropdownItem key={item.id} eventKey={item.id}>{item.name}
+                    </DropdownItem>
+
                 ))}
-            </Tabs>
+            </DropdownButton>
         );
     }
 
   render() {
     return (
       <div className="promess-tabs">
-        {this.state.peopleInfos && <h1>{this.state.peopleInfos.name}</h1>}
+        {this.state.peopleInfos &&
+            <div>
+                <h1>{this.state.peopleInfos.name}</h1>
+                <Container><Row class={"justify-content-end"}><Col xs={{size:5, offset:7}}><a href='#'>S'abonner</a></Col></Row></Container>
+            </div>
+        }
         {this.categoriesTabs(this.state.categories)}
+        {this.state.selectedCategory && <SubCategoriesTabs person={this.state.id} catId={this.state.selectedCategory} />}
+
       </div>
     );
   }

@@ -8,6 +8,7 @@ import Navbar from "react-bootstrap/Navbar";
 import ElectedList from "./ElectedList/Views/ElectedList";
 import PromessTabs from "./PromessTabs/PromessTabs";
 import candidate from "./Assets/Illustrations/candidate.svg";
+import HttpsRedirect from 'react-https-redirect';
 
 function About() {
   return <h2>A propos</h2>;
@@ -18,47 +19,50 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <div className="App" style={{ backgroundImage: `url(${candidate}` }}>
-          <Navbar fixed="top" bg="dark" expand="lg">
-            <Navbar.Brand
-              as={Link}
-              to="/"
-              className="Logo justify-content-center"
-            >
-              Ça en est où ?
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse
-              id="basic-navbar-nav"
-              className="justify-content-end"
-            >
-              <Nav>
-                <Nav.Item>
-                  <Link className="navItem" to="/about">
-                    A propos
-                  </Link>
-                </Nav.Item>
-              </Nav>
-              {/* <Form>
+          <HttpsRedirect>
+            <Router>
+              <div className="App" style={{ backgroundImage: `url(${candidate}` }}>
+                <Navbar fixed="top" bg="dark" expand="lg">
+                  <Navbar.Brand
+                      as={Link}
+                      to="/"
+                      className="Logo justify-content-center"
+                  >
+                    Ça en est où ?
+                  </Navbar.Brand>
+                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                  <Navbar.Collapse
+                      id="basic-navbar-nav"
+                      className="justify-content-end"
+                  >
+                    <Nav>
+                      <Nav.Item>
+                        <Link className="navItem" to="/about">
+                          A propos
+                        </Link>
+                      </Nav.Item>
+                    </Nav>
+                    {/* <Form>
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                 <Button variant="outline-success">Rechercher</Button>
               </Form> */}
-            </Navbar.Collapse>
-          </Navbar>
-          <div className="body">
-            <Switch>
-              <Route exact path={"/"} component={ElectedList}></Route>
-              <Route
-                exact
-                path={"/elected/:id"}
-                component={PromessTabs}
-              ></Route>
-              <Route path={"/about"} component={About}></Route>
-            </Switch>
-          </div>
-        </div>
-      </Router>
+                  </Navbar.Collapse>
+                </Navbar>
+                <div className="body">
+                  <Switch>
+                    <Route exact path={"/"} component={ElectedList}></Route>
+                    <Route
+                        exact
+                        path={"/elected/:id"}
+                        component={PromessTabs}
+                    ></Route>
+                    <Route path={"/about"} component={About}></Route>
+                  </Switch>
+                </div>
+              </div>
+            </Router>
+          </HttpsRedirect>
+
     );
   }
 }

@@ -1,54 +1,60 @@
 import React from "react";
 import PromessList from "../../PromessList/Views/PromessList";
-import { Tabs, Tab, Spinner } from "react-bootstrap";
+import {Tabs, Tab, Spinner, DropdownItem} from "react-bootstrap";
 import axios from "../../axios.js";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 export default class PromessTabs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        subCategories: null
+        subCategories: null,
+        selectedSubCategory:null
     };
     this.fetchSubCategories = this.fetchSubCategories.bind(this);
+    this.selectSubCategory = this.selectSubCategory.bind(this);
   }
 
   async componentDidMount() {
     await this.fetchSubCategories();
   }
 
-async fetchSubCategories() {
+  async componentWillReceiveProps(props) {
+      await this.fetchSubCategories()
+  }
+
+    async fetchSubCategories() {
     const res = await axios.get(
         `/api/categories/${this.props.catId}/childs`
     );
     this.setState({ subCategories: res.data["hydra:member"] });
 }
 
-  handleTabClick(event) {
+  selectSubCategory(event) {
+      this.setState({selectedSubCategory:event});
   }
 
-    subCategoriesTabs(subCategories) {
-        if (!subCategories) {
-            return <Spinner animation="border" />;
-        }
-        const tabs = subCategories.map(item => (
-            <Tab eventKey={item.id} title={item.name} key={item.id}>
-                <PromessList person={this.props.person} categorie={item}/>
-            </Tab>
-        ));
-        return (
-            <Tabs
-                onSelect={this.handleTabClick}
-                defaultActiveKey={subCategories[0].name}
-                id="uncontrolled-tab-example"
-            >
-                {tabs}
-            </Tabs>
-        );
-    }
-
   render() {
+    if (!this.state.subCategories) {
+      return <Spinner animation="border" />;
+    }
     return (
-        this.subCategoriesTabs(this.state.subCategories)
-        );
+        <div>
+            <DropdownButton
+                title="Sous catégorie"
+                id="dropdown-menu-align-right"
+                onSelect={this.selectSubCategory}
+            >
+                {this.state.subCategories.map(item => (
+                    <DropdownItem key={item.id} eventKey={item.id}>{item.name}
+                    </DropdownItem>
+
+                ))}
+            </DropdownButton>
+            {this.state.selectedSubCategory &&
+                <PromessList person={this.props.person} categorie={this.state.selectedSubCategory}/>
+            }
+        </div>
+    )
   }
 }

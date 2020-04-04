@@ -19,7 +19,7 @@ if ("function" === typeof importScripts) {
     });
 
     self.addEventListener('push', (event) => {
-      console.log('push recived', event);
+      console.log('push received', event);
         const title = 'Avancement de promesse !';
         const options = {
           body: event.data.text()
